@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact name="MoreMeat:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/MoreMeat_jar</output-path>
+    <root id="root">
+      <element id="archive" name="MoreMeat.jar">
+        <element id="module-output" name="MoreMeat" />
+      </element>
+    </root>
+  </artifact>
+</component>
