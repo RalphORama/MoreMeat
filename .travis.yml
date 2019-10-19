@@ -21,7 +21,9 @@ cache:
   - "$HOME/.gradle/wrapper/"
 
 script:
-- "./gradlew -q"
+- ./gradlew clean
+- ./gradlew build --scan -s
+- ./gradlew jar
 
 deploy:
   provider: releases
