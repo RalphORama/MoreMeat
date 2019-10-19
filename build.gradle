@@ -26,7 +26,7 @@ buildScan {
 
     // Automatically public build scans if we're in CI (i.e. Travis)
     // Otherwise don't publish unless --scan is specified and tag "Local"
-    if (System.getenv("CI")) {
+    if (System.getenv("CI") || System.getenv("TRAVIS")) {
         publishAlways()
         tag "CI"
     } else {
