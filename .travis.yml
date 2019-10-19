@@ -5,10 +5,8 @@ os: linux
 dist: trusty
 jdk: oraclejdk8
 
-script:
-  - ./gradlew clean
-  - ./gradlew build --scan -s
-  - ./gradlew jar
+before_install:
+  - chmod +x gradlew
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -18,3 +16,8 @@ cache:
   directories:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
+
+script:
+  - ./gradlew clean
+  - ./gradlew build --scan -s
+  - ./gradlew jar
