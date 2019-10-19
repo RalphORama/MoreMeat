@@ -1,5 +1,7 @@
 # MoreMeat
 
+[![Travis CI Status](https://travis-ci.org/RalphORama/MoreMeat.png?branch=master)](https://travis-ci.org/RalphORama/MoreMeat/builds/)
+
 Additional food for your players.
 
 ## Milestones
