@@ -11,16 +11,31 @@ plugins {
     id 'java'
 
     // Needed for CI build scans
-    id 'com.gradle.build-scan' version '2.1'
+    id 'com.gradle.build-scan' version '2.4.2'
 }
 
 version = "0.0.1"
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+defaultTasks 'clean', 'build', 'jar'
+
 buildScan {
     termsOfServiceUrl = "https://gradle.com/terms-of-service"
     termsOfServiceAgree = "yes"
+
+    // Automatically public build scans if we're in CI (i.e. Travis)
+    // Otherwise don't publish unless --scan is specified and tag "Local"
+    if (System.getenv("CI")) {
+        publishAlways()
+        tag "CI"
+    } else {
+        tag "Local"
+    }
+
+    tag System.getProperty("os.name")
+    link "GitHub", "https://github.com/RalphORama/MoreMeat/tree/${System.getProperty("vcs.branch")}"
+    // TODO: Add Spigot page URL once plugin is published
 }
 
 sourceSets {
@@ -36,14 +51,12 @@ sourceSets {
 
 repositories {
     // Use jcenter for resolving dependencies.
-    // You can declare any Maven/Ivy/file repository here.
     jcenter()
 
     maven {
         url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
 
-        // As of Gradle 5.1, you can limit this to only those
-        // dependencies you expect from it
+        // (Gradle 5.1+) Limit dependency namespaces
         content {
             includeGroup 'org.bukkit'
             includeGroup 'org.spigotmc'
@@ -58,7 +71,6 @@ repositories {
 }
 
 dependencies {
-    // This dependency is used by the application.
     compileOnly 'org.spigotmc:spigot-api:1.14.4-R0.1-SNAPSHOT'
 }
 

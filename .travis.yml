@@ -17,7 +17,7 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 
+# Should run gradle clean, gradle build --scan, gradle jar
+# See the defaultTasks section in build.gradle
 script:
-  - ./gradlew clean
-  - ./gradlew build --scan -s
-  - ./gradlew jar
+  - ./gradlew -q
