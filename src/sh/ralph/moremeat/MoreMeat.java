@@ -17,6 +17,7 @@
 package sh.ralph.moremeat;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.Listener;
@@ -42,21 +43,27 @@ public class MoreMeat extends JavaPlugin implements Listener {
             throw e;
         }
 
-        List<String> defaultEntities = Arrays.asList(
-                EntityType.BAT.toString(),
-                EntityType.CAT.toString(),
-                EntityType.OCELOT.toString(),
-                EntityType.PARROT.toString()
-        );
+        Map<String, CustomMeat> defaultEntities = new HashMap<String, CustomMeat>();
+        defaultEntities.put("Bat",
+                new CustomMeat(EntityType.BAT, Material.CHICKEN, 0, 1));
+        defaultEntities.put("Cat",
+                new CustomMeat(EntityType.CAT, Material.RABBIT, 0, 1));
+        defaultEntities.put("Ocelot",
+                new CustomMeat(EntityType.OCELOT, Material.RABBIT, 0, 2));
+        defaultEntities.put("Parrot",
+                new CustomMeat(EntityType.PARROT, Material.CHICKEN, 1, 1));
 
         getLogger().fine("Adding default entity list to the config file.");
-        config.addDefault("entities", defaultEntities);
+        /*
+         * TODO:
+         *  This adds excessive "!!sh.ralph.moremeat.CustomMeat" fields that mess up reading the config.
+         *  https://s.ralph.sh/3a27d
+         */
+        config.createSection("meats", defaultEntities);
 
         getLogger().fine("Saving config.");
         config.options().copyDefaults(true);
         saveConfig();
-
-        defaultEntities = null;
 
         getLogger().info("Parsing entity list from config.");
         List<String> entities = config.getStringList("entities");
