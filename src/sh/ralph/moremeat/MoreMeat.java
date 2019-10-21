@@ -40,8 +40,13 @@ public class MoreMeat extends JavaPlugin implements Listener {
         }
         catch (Exception e) {
             getLogger().severe("Ran into an error loading the config file!");
-            throw e;
+            e.printStackTrace();
         }
+
+        getLogger().fine("Adding global option `enabled`: `true`");
+        config.addDefault("enabled", true);
+
+        getLogger().fine("Creating default entity map.");
 
         Map<String, CustomMeat> defaultEntities = new HashMap<String, CustomMeat>();
         defaultEntities.put("Bat",
@@ -55,26 +60,34 @@ public class MoreMeat extends JavaPlugin implements Listener {
 
         getLogger().fine("Adding default entity list to the config file.");
         /*
-         * TODO:
-         *  This adds excessive "!!sh.ralph.moremeat.CustomMeat" fields that mess up reading the config.
-         *  https://s.ralph.sh/3a27d
+         * Thanks to @ASangarin on the Spigot forums for their help with this.
+         *  https://s.ralph.sh/03c43
          */
-        config.createSection("meats", defaultEntities);
+        for(String key : defaultEntities.keySet()) {
+            String s = key.toLowerCase();
+            getLogger().fine("Adding " + s + " to the config.");
+
+            config.addDefault("meats." + s + ".enabled", defaultEntities.get(key).enabled);
+            config.addDefault("meats." + s + ".dropName", defaultEntities.get(key).getDropName());
+            config.addDefault("meats." + s + ".entity", defaultEntities.get(key).getEntity().toString());
+            config.addDefault("meats." + s + ".foodBase", defaultEntities.get(key).getFoodBase().toString());
+            config.addDefault("meats." + s + ".minDrops", defaultEntities.get(key).getMinDrops());
+            config.addDefault("meats." + s + ".maxDrops", defaultEntities.get(key).getMaxDrops());
+        }
+
+        // Free memory
+        defaultEntities = null;
 
         getLogger().fine("Saving config.");
         config.options().copyDefaults(true);
         saveConfig();
 
-        getLogger().info("Parsing entity list from config.");
-        List<String> entities = config.getStringList("entities");
-
         getLogger().fine("Instantiating death listener.");
-        deathListener = new EntityDeathListener(entities);
+        // No need to pass a list of entities to the listener - logic is now handled in the class.
+        deathListener = new EntityDeathListener();
 
-        getLogger().info("Registering event hook.");
+        getLogger().fine("Registering event hook.");
         Bukkit.getServer().getPluginManager().registerEvents(deathListener, this);
-
-        getLogger().info("Successfully enabled!");
     }
 
     @Override

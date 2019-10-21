@@ -17,7 +17,10 @@
 package sh.ralph.moremeat;
 
 import org.apache.commons.lang.WordUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,62 +30,88 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static org.bukkit.Bukkit.getLogger;
 
 public class EntityDeathListener implements Listener {
-    private List<String> entityFilter = null;
-
     /**
-     * Instantiates the listener with a list of entity names.
-     * These names are 1:1 with those defined in the EntityType enum.
-     * @param entities List of EntityType enums (i.e. EntityType.BAT.toString())
+     * Default constructor doesn't need to do anything - all options are read from the config.
      */
-    public EntityDeathListener(List<String> entities) {
-        getLogger().fine("Instantiating EntityDeathListener with " + entities.toString());
-        this.entityFilter = entities;
-    }
+    EntityDeathListener() {};
 
     /**
-     * TODO: Write this documentation.
-     * @param event
+     * This function fires whenever an entity dies.
+     * @param event The death event.
      */
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
+        // Don't do anything if the global "enabled" option is false.
+        if (!MoreMeat.config.getBoolean("enabled"))
+            return;
+
         LivingEntity entity = event.getEntity();
+        String entityType = entity.getType().toString();
+        String configParent = "meats." + entityType.toLowerCase() + ".";
 
         // Don't do anything if we weren't killed by a player
         if (!(event.getEntity().getKiller() instanceof Player))
             return;
 
-        String entityType = entity.getType().toString();
+        // Don't do anything if this entity is disabled or doesn't exist in the config
+        try {
+            if (!MoreMeat.config.contains(configParent + "enabled")) {
+                getLogger().fine("Ignored " + entity.getName() + " death: Disabled in config.yml.");
+                return;
+            }
+        } catch (IllegalArgumentException e) {
+            getLogger().fine("Ignored " + entity.getName() + " death: No config section for this entity.");
 
-        if (!entityFilter.contains(entityType)) {
-            getLogger().fine("Ignored " + entity.getName() + " death.");
+            // We can safely ignore this error
             return;
         }
 
+        // Entity type is present in config.yml and is enbaled
         getLogger().fine("Modifying drops of " + entity.getName() + " after death.");
+
+        List<ItemStack> originalDrops = event.getDrops();
 
         // Combine original drops with new (meat) drops
         // TODO: Add a config option to disable original drops.
-        List<ItemStack> originalDrops = event.getDrops();
+        // TODO: Implement custom name config option.
+        Material material = null;
+        // String customName = MoreMeat.config.getString(configParent + "customName");
+        // String customLore = MoreMeat.config.getString(configParent + "lore");
+        int min = MoreMeat.config.getInt(configParent + "minDrops");
+        int max = MoreMeat.config.getInt(configParent + "maxDrops");
+        String foodBase = MoreMeat.config.getString(configParent + "foodBase");
+
+        try {
+            material = Material.valueOf(foodBase);
+        } catch (IllegalArgumentException | NullPointerException e) {
+            getLogger().severe("Invalid foodBase " + foodBase + " specified for " + entityType + " in config.yml!");
+            e.printStackTrace();
+            return;
+        }
+
+        // inclusive random in range
+        int amount = ThreadLocalRandom.current().nextInt(min, max + 1);
 
         // Create the ItemStack to add to the drops
-        // TODO: Add a config option for which type of meat to drop
-        // TODO: Add config options for min/max stack size
-        ItemStack meat = new ItemStack(Material.CHICKEN, 2);
+        ItemStack meat = new ItemStack(material, amount);
 
         // Set custom item meta
-        // TODO: Add config option for custom name/lore
+        // TODO: Implement config options for custom name/lore
         ItemMeta meta = meat.getItemMeta();
-        String newName = WordUtils.capitalizeFully("Raw " + entityType);
-        meta.setDisplayName(newName);
+        if (meta != null) {
+            String newName = WordUtils.capitalizeFully("Raw " + entityType);
+            // Use ChatColor.RESET so name isn't italic
+            // Has to go here otherwise capitalizeFully messes up.
+            meta.setDisplayName(ChatColor.RESET + newName);
+            meat.setItemMeta(meta);
+        }
 
-        // Finalize item meta
-        meat.setItemMeta(meta);
-
-        // Add our new item to the stack
+        // All done - add the meat to the stack!
         originalDrops.add(meat);
     }
 }

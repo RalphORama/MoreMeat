@@ -20,6 +20,8 @@ import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 
+import static org.bukkit.Bukkit.getLogger;
+
 /**
  * CustomMeat is a wrapper for individual entity sections in config.yml.
  * TODO: Add a list of valid food types (prevent foodBase = Material.CHEST or whatever).
@@ -82,6 +84,21 @@ public class CustomMeat {
         this.entity = entity;
     }
 
+    /**
+     * Sets which entity this configuration applies to.
+     * @param entity Entity name e.g. "CAT", "BAT"
+     */
+    public void setEntity(String entity) {
+        entity = entity.toUpperCase();
+
+        try {
+            this.entity = EntityType.valueOf(entity);
+        } catch (IllegalArgumentException e) {
+            getLogger().severe("Invalid entity type " + entity + " supplied for " + this.entity.toString() + "!");
+            e.printStackTrace();
+        }
+    }
+
     public Material getFoodBase() {
         return foodBase;
     }
@@ -93,6 +110,21 @@ public class CustomMeat {
      */
     public void setFoodBase(Material foodBase) {
         this.foodBase = foodBase;
+    }
+
+    /**
+     * Set the Material base that will be renamed (i.e. Material.CHICKEN, Material.PORK).
+     * @param foodBase String such as "CHICKEN" or "PORK" to be converted into a Material.
+     */
+    public void setFoodBase(String foodBase) {
+        foodBase = foodBase.toUpperCase();
+
+        try {
+            this.foodBase = Material.valueOf(foodBase);
+        } catch (IllegalArgumentException e) {
+            getLogger().severe("Invalid material type " + foodBase + " supplied for " + this.entity.toString() + "!");
+            e.printStackTrace();
+        }
     }
 
     public int getMinDrops() {
