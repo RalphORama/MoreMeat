@@ -2,11 +2,29 @@
 
 [![Build Status](https://travis-ci.org/RalphORama/MoreMeat.svg?branch=master)](https://travis-ci.org/RalphORama/MoreMeat)
 
-Additional food for your players.
+MoreMeat is a Spigot plugin for adding more food drops to your Minecraft server!
+
+## Installation & Usage
+
+:warning: Don't use this plugin yet!  Wait for the v1.0.0 release (coming soon&trade;).
+
+## Development
+
+Working on the plugin is easy:
+
+1. Clone the repository
+2. Make your changes
+3. Run `./gradlew` (default tasks are `clean`, `build`, `jar`)
+4. Copy `MoreMeat-<version>.jar` from `build/` to your plugins folder
 
 ## Milestones
 
 ### v1.0
+
+**Features**
+- [ ] Listener for "Raw \<Meat\>" -> "Cooked \<Meat\>"
+- [ ] Player meat drops
+  - [ ] Add username to item name
 
 **Configuration options:**
 
@@ -28,9 +46,3 @@ Additional food for your players.
 - [ ] `/meat reload`
   - Reloads the config
   - [ ] Permission `moremeat.reload` (OP)
-
-### v2.0
-
-- [ ] Listener for "Raw <Meat>" -> "Cooked <Meat>"
-- [ ] Player meat drops
-  - [ ] Add username to item name
