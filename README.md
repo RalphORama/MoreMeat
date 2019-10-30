@@ -23,12 +23,23 @@ Working on the plugin is easy:
 
 **Features**
 - [ ] Listener for "Raw \<Meat\>" -> "Cooked \<Meat\>"
-- [ ] If entity is on fire, drop cooked meat
 - [ ] Player meat drops
   - [ ] Add username to item name
+- [x] If entity is on fire, drop cooked meat
+
+ **NBT Advanced Features:**
+
+- [ ] Create [fat jar](https://www.baeldung.com/gradle-fat-jar) with [NBT API](https://www.spigotmc.org/resources/nbt-api.7939/)
+- [ ] Add NBT field to indicate what cooked name of meat should be?
+
 
 **Configuration options:**
 
+- [ ] "Player" configuration section
+	- [ ] Enable/disable
+	- [ ] Min/max drops
+	- [ ] Item base
+	- [ ] Name type to use? Real vs. display vs. "Raw (Human|Player|Steve)"
 - [x] Config option for entity list
 - [x] Config option for global enable/disable
 - [x] Per-mob item base (chicken/steak/etc.)
@@ -49,3 +60,10 @@ Working on the plugin is easy:
   - Reloads the config
   - **TODO:** Write custom reload class so we can catch config reload errors.
   - [x] Permission `moremeat.reload` (OP)
+
+**Reminders:**
+
+- [ ] Set version to 1.0.0 in `plugin.yml`
+- [ ] Set version to 1.0.0 in `build.gradle`
+- [ ] Tag commit `v1.0.0`
+- [ ] Update `README.md`
