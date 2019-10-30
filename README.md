@@ -40,6 +40,7 @@ Working on the plugin is easy:
 
 - [x] `/meat`
   - Prints info about the plugin
+  - [x] Uses plugin version from `plugin.yml`
   - [x] Permission `moremeat.meat` (default)
 - [x] `/meat <enable/disable>`
   - Sets global `enabled` option to `true` or `false`

@@ -30,17 +30,19 @@ import java.util.Map;
 
 public class CommandMeat implements CommandExecutor, TabCompleter {
     private MoreMeat plugin;
-    Map<String, Boolean> toggle;
+    private Map<String, Boolean> toggle;
     // TODO: Make this get version string from plugin.yml
-    private final String usage = "MoreMeat v1.0.0\n"
-            + "Usage: /meat [<enable/disable> | reload]";
+    private final String usage;
 
     CommandMeat(MoreMeat plugin) {
         this.plugin = plugin;
 
-        toggle = new HashMap<String, Boolean>();
-        toggle.put("enable", true);
-        toggle.put("disable", false);
+        this.toggle = new HashMap<String, Boolean>();
+        this.toggle.put("enable", true);
+        this.toggle.put("disable", false);
+
+        this.usage = "MoreMeat v" + plugin.getDescription().getVersion() + "\n" +
+                "Usage: /meat <reload / [enable/disable]>";
     }
 
     @Override
