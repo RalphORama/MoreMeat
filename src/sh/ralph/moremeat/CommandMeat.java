@@ -34,6 +34,12 @@ public class CommandMeat implements CommandExecutor, TabCompleter {
     // TODO: Make this get version string from plugin.yml
     private final String usage;
 
+    /**
+     * Command constructor - Takes a reference to the main plugin instance.
+     *                       Instantiates a true/false map for simplifying logic when processing commands.
+     *                       Sets up a help/version string with the version specified in plugin.yml
+     * @param plugin The instance of the main plugin class (see MoreMeat.java)
+     */
     CommandMeat(MoreMeat plugin) {
         this.plugin = plugin;
 
@@ -45,6 +51,14 @@ public class CommandMeat implements CommandExecutor, TabCompleter {
                 "Usage: /meat <reload / [enable/disable]>";
     }
 
+    /**
+     * The command hook.  Don't need to match command name because of how it's instantiated in MoreMeat.
+     * @param sender Who sent the command (player, server)
+     * @param command The command after /.
+     * @param label
+     * @param args Arguments passed to the command.
+     * @return true if the player has permission and the command is executed, false otherwise.
+     */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         switch (args.length) {
