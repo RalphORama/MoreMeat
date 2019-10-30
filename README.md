@@ -23,6 +23,7 @@ Working on the plugin is easy:
 
 **Features**
 - [ ] Listener for "Raw \<Meat\>" -> "Cooked \<Meat\>"
+- [ ] If entity is on fire, drop cooked meat
 - [ ] Player meat drops
   - [ ] Add username to item name
 
@@ -37,12 +38,13 @@ Working on the plugin is easy:
 
 **Commands:**
 
-- [ ] `/meat`
+- [x] `/meat`
   - Prints info about the plugin
-  - [ ] Permission `moremeat.moremeat` (default)
-- [ ] `/meat <enable/disable>`
+  - [x] Permission `moremeat.meat` (default)
+- [x] `/meat <enable/disable>`
   - Sets global `enabled` option to `true` or `false`
-  - [ ] Permission `moremeat.toggle` (OP)
-- [ ] `/meat reload`
+  - [x] Permission `moremeat.toggle` (OP)
+- [x] `/meat reload`
   - Reloads the config
-  - [ ] Permission `moremeat.reload` (OP)
+  - **TODO:** Write custom reload class so we can catch config reload errors.
+  - [x] Permission `moremeat.reload` (OP)

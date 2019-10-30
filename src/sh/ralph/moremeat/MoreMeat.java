@@ -18,6 +18,7 @@ package sh.ralph.moremeat;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.command.Command;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.Listener;
@@ -52,7 +53,7 @@ public class MoreMeat extends JavaPlugin implements Listener {
         defaultEntities.put("Bat",
                 new CustomMeat(EntityType.BAT, Material.CHICKEN, 0, 1));
         defaultEntities.put("Cat",
-                new CustomMeat(EntityType.CAT, Material.RABBIT, 0, 1));
+                new CustomMeat(EntityType.CAT, Material.RABBIT, 1, 1));
         defaultEntities.put("Ocelot",
                 new CustomMeat(EntityType.OCELOT, Material.RABBIT, 0, 2));
         defaultEntities.put("Parrot",
@@ -88,6 +89,9 @@ public class MoreMeat extends JavaPlugin implements Listener {
 
         getLogger().fine("Registering event hook.");
         Bukkit.getServer().getPluginManager().registerEvents(deathListener, this);
+
+        // Register our commands
+        this.getCommand("meat").setExecutor(new CommandMeat(this));
     }
 
     @Override

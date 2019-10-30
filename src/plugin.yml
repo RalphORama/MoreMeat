@@ -4,3 +4,25 @@ author: Ralph Drake (Ralph#0001)
 main: sh.ralph.moremeat.MoreMeat
 api-version: 1.14
 website: https://mc.ralph.sh
+commands:
+  meat:
+    description: Returns information about the plugin.
+    usage: /meat
+    permission: moremeat.meat
+    aliases: [mm, moremeat]
+permissions:
+  moremeat.*:
+    description: Gives access to all MoreMeat commands.
+    children:
+      moremeat.meat: true
+      moremeat.toggle: true
+      moremeat.reload: true
+  moremeat.meat:
+    description: Allows access to the /meat command.
+    default: true
+  moremeat.toggle:
+    description: Allows globally toggling MoreMeat drops with /meat <enable/disable>.
+    default: op
+  moremeat.reload:
+    description: Allows reloading the config with /meat reload.
+    default: op
