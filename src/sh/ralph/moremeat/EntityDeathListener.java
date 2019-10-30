@@ -51,6 +51,10 @@ public class EntityDeathListener implements Listener {
             return;
 
         LivingEntity entity = event.getEntity();
+
+        boolean wasOnFire = entity.getFireTicks() > 0;
+        getLogger().fine("Entity fire ticks were " + entity.getFireTicks());
+
         String entityType = entity.getType().toString();
         String configParent = "meats." + entityType.toLowerCase() + ".";
 
@@ -86,6 +90,10 @@ public class EntityDeathListener implements Listener {
         int max = MoreMeat.config.getInt(configParent + "maxDrops");
         String foodBase = MoreMeat.config.getString(configParent + "foodBase");
 
+        if (wasOnFire) {
+            foodBase = "COOKED_" + foodBase;
+        }
+
         try {
             material = Material.valueOf(foodBase);
         } catch (IllegalArgumentException | NullPointerException e) {
@@ -104,7 +112,8 @@ public class EntityDeathListener implements Listener {
         // TODO: Implement config options for custom name/lore
         ItemMeta meta = meat.getItemMeta();
         if (meta != null) {
-            String newName = WordUtils.capitalizeFully("Raw " + entityType);
+            String status = (wasOnFire) ? "Cooked " : "Raw ";
+            String newName = WordUtils.capitalizeFully(status + entityType);
             // Use ChatColor.RESET so name isn't italic
             // Has to go here otherwise capitalizeFully messes up.
             meta.setDisplayName(ChatColor.RESET + newName);
