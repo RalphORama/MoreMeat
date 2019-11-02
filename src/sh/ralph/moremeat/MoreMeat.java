@@ -30,6 +30,7 @@ public class MoreMeat extends JavaPlugin implements Listener {
 
     public static volatile FileConfiguration config = null;
     public static volatile EntityDeathListener deathListener = null;
+    public static volatile FurnaceSmeltListener smeltListener = null;
 
     @Override
     public void onEnable() {
@@ -87,8 +88,12 @@ public class MoreMeat extends JavaPlugin implements Listener {
         // No need to pass a list of entities to the listener - logic is now handled in the class.
         deathListener = new EntityDeathListener();
 
-        getLogger().fine("Registering event hook.");
+        getLogger().fine("Initiating furnace smelt listener.");
+        smeltListener = new FurnaceSmeltListener(this, getLogger());
+
+        getLogger().fine("Registering event hooks.");
         Bukkit.getServer().getPluginManager().registerEvents(deathListener, this);
+        Bukkit.getServer().getPluginManager().registerEvents(smeltListener, this);
 
         // Register our commands
         this.getCommand("meat").setExecutor(new CommandMeat(this));

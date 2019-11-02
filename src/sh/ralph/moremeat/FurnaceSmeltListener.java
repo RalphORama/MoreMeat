@@ -16,21 +16,70 @@
 
 package sh.ralph.moremeat;
 
+import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.FurnaceSmeltEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.logging.Logger;
+
 public class FurnaceSmeltListener implements Listener {
+    private MoreMeat plugin;
+    private Logger logger;
+
+    FurnaceSmeltListener(MoreMeat plugin, Logger logger) {
+        this.plugin = plugin;
+        this.logger = logger;
+    }
 
     @EventHandler
     public void onFurnaceSmelt(FurnaceSmeltEvent event) {
         ItemStack source = event.getSource();
         ItemStack result = event.getResult();
 
+        // Will be "" if item doesn't exist in config.
+        String displayName = ChatColor.stripColor(
+                Objects.requireNonNull(
+                        source.getItemMeta()
+                )
+                .getDisplayName()
+                .replaceAll("Raw ", "")
+                .toLowerCase()
+        );
+
+        if (displayName.equalsIgnoreCase("")) {
+            logger.fine("Item " + source.getType().toString() + " not found in config.yml");
+            return;
+        }
+
+        String newDisplayName;
+        String node = "meats." + displayName + ".dropName";
+
+        logger.fine("Looking for " + node + " in config.");
+
+        if (MoreMeat.config.contains(node)) {
+            newDisplayName = MoreMeat.config.getString(node);
+        } else {
+            logger.fine(node + " doesn't exist in the config!");
+            return;
+        }
+
+        logger.fine("Successfully got " + newDisplayName);
+
+
+//        if (typeof meatList != null;)
+//        for (CustomMeat meat : meatList) {
+//            logger.info("meat is " + meat.toString());
+//        }
         // TODO: Set up custom NBT values and check
 //        if (source.getItemMeta().getDisplayName().contains("Raw")) {
 //
 //        }
     }
+
+
 }
