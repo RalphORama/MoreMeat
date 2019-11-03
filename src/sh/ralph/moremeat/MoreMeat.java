@@ -103,7 +103,7 @@ public class MoreMeat extends JavaPlugin implements Listener {
         deathListener = new EntityDeathListener();
 
         getLogger().fine("Initiating furnace smelt listener.");
-        smeltListener = new FurnaceSmeltListener(getLogger());
+        smeltListener = new FurnaceSmeltListener();
 
         getLogger().fine("Registering event hooks.");
         Bukkit.getServer().getPluginManager().registerEvents(deathListener, this);

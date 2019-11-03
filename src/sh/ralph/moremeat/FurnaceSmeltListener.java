@@ -23,17 +23,13 @@ import org.bukkit.event.inventory.FurnaceSmeltEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-import java.util.logging.Logger;
+
+import static org.bukkit.Bukkit.getLogger;
 
 public class FurnaceSmeltListener implements Listener {
-    private Logger logger;
 
-    FurnaceSmeltListener(Logger logger) {
-        this.logger = logger;
-    }
+    FurnaceSmeltListener() {}
 
     @EventHandler
     public void onFurnaceSmelt(FurnaceSmeltEvent event) {
@@ -51,20 +47,20 @@ public class FurnaceSmeltListener implements Listener {
         );
 
         if (displayName.equalsIgnoreCase("")) {
-            logger.fine("Item " + source.getType().toString() + " not found in config.yml");
+            getLogger().fine("Item " + source.getType().toString() + " not found in config.yml");
             return;
         }
 
         String newDisplayName;
         String node = "meats." + displayName;
 
-        logger.fine("Looking for " + node + " in config.");
+        getLogger().fine("Looking for " + node + " in config.");
 
         // Set everything up if the node exists
         if (MoreMeat.config.contains(node)) {
             newDisplayName = MoreMeat.config.getString(node + ".dropName");
         } else {
-            logger.fine(node + " doesn't exist in the config!");
+            getLogger().fine(node + " doesn't exist in the config!");
             return;
         }
 
@@ -72,9 +68,9 @@ public class FurnaceSmeltListener implements Listener {
         boolean globalEnable = MoreMeat.config.getBoolean("enabled");
         boolean localEnable  = MoreMeat.config.getBoolean(node + ".enabled");
         if (!globalEnable || !localEnable) {
-            logger.fine("Skipping " + node + " smelt event because:");
-            logger.fine(" > global enable is " + globalEnable);
-            logger.fine(" > local enable is  " + localEnable);
+            getLogger().fine("Skipping " + node + " smelt event because:");
+            getLogger().fine(" > global enable is " + globalEnable);
+            getLogger().fine(" > local enable is  " + localEnable);
 
             return;
         }
@@ -83,7 +79,7 @@ public class FurnaceSmeltListener implements Listener {
         ItemMeta oldMeta = source.getItemMeta();
         oldMeta.setDisplayName(ChatColor.RESET + "Cooked " + newDisplayName);
 
-        logger.fine("Setting ItemMeta to " + oldMeta.toString());
+        getLogger().fine("Setting ItemMeta to " + oldMeta.toString());
 
         // We just need to update the meta, the furnace will automatically produce cooked food
         // of the same type for us.
