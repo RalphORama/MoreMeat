@@ -12,6 +12,11 @@ MoreMeat is a Spigot plugin for adding more food drops to your Minecraft server!
 3. Restart your server!
 
 
+# Configuration
+
+See the [wiki page](https://github.com/RalphORama/MoreMeat/wiki/Configuration) for more information about configuring the plugin.
+
+
 # Usage
 
 | Command                  | Description                                  | Permission        | Default Access              |
