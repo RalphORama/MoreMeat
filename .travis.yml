@@ -25,7 +25,7 @@ script:
 
 before_deploy:
   - mkdir deploy
-  - cp build/*.jar deploy
+  - cp build/MoreMeat-*.jar deploy
 
 deploy:
   provider: releases
