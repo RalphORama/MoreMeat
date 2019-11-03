@@ -46,6 +46,10 @@ public class EntityDeathListener implements Listener {
      */
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
+        // Don't do anything if we weren't killed by a player
+        if (!(event.getEntity().getKiller() instanceof Player))
+            return;
+
         // Don't do anything if the global "enabled" option is false.
         if (!MoreMeat.config.getBoolean("enabled"))
             return;
@@ -56,11 +60,15 @@ public class EntityDeathListener implements Listener {
         getLogger().fine("Entity fire ticks were " + entity.getFireTicks());
 
         String entityType = entity.getType().toString();
-        String configParent = "meats." + entityType.toLowerCase() + ".";
+        String configParent;
+        boolean wasPlayer = false;
 
-        // Don't do anything if we weren't killed by a player
-        if (!(event.getEntity().getKiller() instanceof Player))
-            return;
+        if (entityType.equalsIgnoreCase("PLAYER")) {
+            configParent = "players.";
+            wasPlayer = true;
+        } else {
+            configParent = "meats." + entityType.toLowerCase() + ".";
+        }
 
         // Don't do anything if this entity is disabled or doesn't exist in the config
         try {
@@ -82,8 +90,18 @@ public class EntityDeathListener implements Listener {
 
         // Combine original drops with new (meat) drops
         // TODO: Add a config option to disable original drops.
-        Material material = null;
-        String customName = MoreMeat.config.getString(configParent + "dropName");
+        Material material;
+        String customName;
+        boolean usePlayerName = wasPlayer && !MoreMeat.config.getBoolean(configParent + "useDropNameInsteadOfUsername");
+        Player player = (wasPlayer) ? (Player)event.getEntity() : null;
+
+        if (usePlayerName) {
+            // Add the player's name to the drop name
+            customName = player.getDisplayName() + ChatColor.RESET;
+        } else {
+            customName = MoreMeat.config.getString(configParent + "dropName");
+        }
+
         // String customLore = MoreMeat.config.getString(configParent + "lore");
         int min = MoreMeat.config.getInt(configParent + "minDrops");
         int max = MoreMeat.config.getInt(configParent + "maxDrops");
@@ -108,11 +126,19 @@ public class EntityDeathListener implements Listener {
         ItemStack meat = new ItemStack(material, amount);
 
         // Set custom item meta
-        // TODO: Implement config options for custom name/lore
         ItemMeta meta = meat.getItemMeta();
         if (meta != null) {
             String status = (wasOnFire) ? "Cooked " : "Raw ";
-            String newName = WordUtils.capitalizeFully(status + customName);
+            String newName;
+
+            if (usePlayerName) {
+                // we don't want to run capitalizeFully on the username.
+                newName = WordUtils.capitalizeFully(status + "%1% meat");
+                newName = newName.replaceAll("%1%", customName);
+            } else {
+                newName = WordUtils.capitalizeFully(status + customName);
+            }
+
             // Use ChatColor.RESET so name isn't italic
             // Has to go here otherwise capitalizeFully messes up.
             meta.setDisplayName(ChatColor.RESET + newName);

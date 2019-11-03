@@ -26,8 +26,8 @@ Working on the plugin is easy:
 
 **Features**
 - [x] Listener for "Raw \<Meat\>" -> "Cooked \<Meat\>"
-- [ ] Player meat drops
-  - [ ] Add username to item name
+- [x] Player meat drops
+  - [x] Add username to item name
 - [x] If entity is on fire, drop cooked meat
 
 

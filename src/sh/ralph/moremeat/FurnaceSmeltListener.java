@@ -47,11 +47,17 @@ public class FurnaceSmeltListener implements Listener {
         );
 
         if (displayName.equalsIgnoreCase("")) {
-            getLogger().fine("Item " + source.getType().toString() + " not found in config.yml");
+            getLogger().fine("displayName was blank!");
             return;
         }
 
         String newDisplayName;
+        /*
+         * TODO: Figure out a way to preserve usernames when cooking player meat.
+         *       Currently, we cook normal player meat down to its base material.
+         *       I'm not sure how I could reliably check if an item was raw player meat.
+         *       Perhaps this is an issue best solved with NBT flags.
+         */
         String node = "meats." + displayName;
 
         getLogger().fine("Looking for " + node + " in config.");
