@@ -31,7 +31,6 @@ import java.util.Map;
 public class CommandMeat implements CommandExecutor, TabCompleter {
     private MoreMeat plugin;
     private Map<String, Boolean> toggle;
-    // TODO: Make this get version string from plugin.yml
     private final String usage;
 
     /**
@@ -116,11 +115,10 @@ public class CommandMeat implements CommandExecutor, TabCompleter {
                     plugin.reloadConfig();
                 } catch (Exception e) {
                     /*
-                     * TODO: For some reason this exception doesn't get caught.
-                     *  Instead, we get the following error:
-                     *  org.bukkit.configuration.InvalidConfigurationException: while scanning a simple key
-                     *  and the plugin sends the success message to the invoker.
-                     *  https://s.ralph.sh/a1c6e
+                     * TODO: Write a custom config reloading class.  Without it, we can't catch the
+                     *       org.bukkit.configuration.InvalidConfigurationException
+                     *       that gets thrown when we try to reload an invalid config.
+                     *       https://s.ralph.sh/a1c6e
                      */
                     sender.sendMessage(ChatColor.RED + "[MoreMeat] Failed to reload config!");
                     e.printStackTrace();

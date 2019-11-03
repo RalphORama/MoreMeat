@@ -113,10 +113,11 @@ public class MoreMeat extends JavaPlugin implements Listener {
         this.getCommand("meat").setExecutor(new CommandMeat(this));
     }
 
+    /**
+     * Called when plugin is unloaded (usually when server is shutting down).
+     */
     @Override
-    public void onDisable() {
-        // TODO: Maybe add a goodbye message
-    }
+    public void onDisable() {}
 
     /**
      * There's no easy way to iterate + typecast a Map<String,CustomMeat>, so we use this.

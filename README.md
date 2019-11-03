@@ -5,9 +5,22 @@
 MoreMeat is a Spigot plugin for adding more food drops to your Minecraft server!
 
 
-## Installation & Usage
+## Installation
 
-:warning: Don't use this plugin yet!  Wait for the v1.0.0 release (coming soon&trade;).
+1. Download the latest jar from the [releases page](https://github.com/RalphORama/MoreMeat/releases).  (Spigot page coming soon!)
+2. Drop `MoreMeat-*.*.*.jar` into your `plugins` folder
+3. Restart your server!
+
+
+# Usage
+
+| Command                  | Description                                  | Permission        | Default Access              |
+|--------------------------|----------------------------------------------|-------------------|-----------------------------|
+| `/meat`                  | Shows plugin information.                    | `moremeat.meat`   | :heavy_check_mark: Everyone |
+| `/meat <enable/disable>` | Enables/disables the plugin's functionality. | `moremeat.toggle` |            :x: OP           |
+| `/meat reload`           | Reloads `config.yml`.<sup>1</sup>             | `moremeat.reload` |            :x: OP           |
+
+<sup>1</sup>: May fail silently if run ingame, check server console (see #2).
 
 
 ## Development
@@ -17,53 +30,21 @@ Working on the plugin is easy:
 1. Clone the repository
 2. Make your changes
 3. Run `./gradlew` (default tasks are `clean`, `build`, `jar`)
-4. Copy `MoreMeat-<version>.jar` from `build/` to your plugins folder
+4. Copy `MoreMeat-<version>.jar` from `build/` to your plugins folder.
+5. Test!
 
 
 ## Milestones
 
-### v1.0
+### v1.1.0
 
-**Features**
-- [x] Listener for "Raw \<Meat\>" -> "Cooked \<Meat\>"
-- [x] Player meat drops
-  - [x] Add username to item name
-- [x] If entity is on fire, drop cooked meat
+- [ ] Custom configuration reloading class to catch `InvalidConfigurationException`
+- [ ] Playtesting and bugfixing.
 
 
-**Configuration options:**
+### v1.1.0-NBT
 
-- [x] "Player" configuration section
-	- [x] Enable/disable
-	- [x] Min/max drops
-	- [x] Item base
-	- [x] Name type to use? Real vs. display vs. "Raw (Human|Player|Steve)"
-- [x] Config option for entity list
-- [x] Config option for global enable/disable
-- [x] Per-mob item base (chicken/steak/etc.)
-- [x] Per-mob min/max drops
-- [x] Per-mob custom drop name
-- [x] Per-mob enable/disable
-
-
-**Commands:**
-
-- [x] `/meat`
-  - Prints info about the plugin
-  - [x] Uses plugin version from `plugin.yml`
-  - [x] Permission `moremeat.meat` (default)
-- [x] `/meat <enable/disable>`
-  - Sets global `enabled` option to `true` or `false`
-  - [x] Permission `moremeat.toggle` (OP)
-- [x] `/meat reload`
-  - Reloads the config
-  - **TODO:** Write custom reload class so we can catch config reload errors.
-  - [x] Permission `moremeat.reload` (OP)
-
-
-**Reminders:**
-
-- [ ] Set version to 1.0.0 in `plugin.yml`
-- [ ] Set version to 1.0.0 in `build.gradle`
-- [ ] Tag commit `v1.0.0`
-- [ ] Update `README.md`
+- [ ] Create NBT branch.
+- [ ] Modify `build.gradle` and `.travis.yml` accordingly.
+- [ ] Add [NBT API](https://www.spigotmc.org/resources/nbt-api.7939/) and set up a [Fat Jar](https://www.baeldung.com/gradle-fat-jar) build in Gradle.
+- [ ] Use NBT tags to support Raw \<Username\> Meat -\> Cooked \<Username\> Meat.

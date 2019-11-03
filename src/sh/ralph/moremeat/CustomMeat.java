@@ -25,7 +25,6 @@ import static org.bukkit.Bukkit.getLogger;
 /**
  * CustomMeat is a wrapper for individual entity sections in config.yml.
  * TODO: Add a list of valid food types (prevent foodBase = Material.CHEST or whatever).
- * TODO: Add more constructors for more options.
  */
 public class CustomMeat {
     public boolean enabled;
@@ -105,7 +104,6 @@ public class CustomMeat {
 
     /**
      * Set the Material base that will be renamed (i.e. Material.CHICKEN, Material.PORK).
-     * TODO: Set an item whitelist so this can't be set to, say, Material.CHEST.
      * @param foodBase The new base Material.
      */
     public void setFoodBase(Material foodBase) {
@@ -178,7 +176,6 @@ public class CustomMeat {
 
     /**
      * Set the name of the meat that's dropped.
-     * TODO: Add placeholder support?  I.e. "Raw %entity%" -> "Raw Bat"
      * @param dropName The new name.
      */
     public void setDropName(String dropName) {
