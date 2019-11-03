@@ -23,12 +23,16 @@ cache:
 script:
 - ./gradlew --stacktrace
 
+before_deploy:
+  - mkdir deploy
+  - cp build/*.jar deploy
+
 deploy:
   provider: releases
   api_key:
     secure: aBt8hH8PgPK7D0JoSTHhj34Ui2sMGTmFYvxIsvvcZhJ/85CKxRtvy4Lc0+PtWLA17ztRQox3reEsBT4hay9Bh/v0QomA3ouUpZ5f2Cee1Rsoopr5cX6SJ4mItNflr1sKKFMSEhq2BZwkOGnsRmOcOD+MJwtmhQtJNPkmp/IiRc8Qy0ExYri69+Eoo67nJCKU5np+XH5azR2iTQ9dnZlI3TETz/9i4r7tILSlgzuZ6vcDcoMZeGKu00SGHKpotdOWKXQHL5ypp1yYw5dTxUgmCP20mfBy8/UAm0hBAT1XZQXo+A8xJv53JakL+Tuk9s4hsu3l/AtbSclGzeNq91PhUaXO0xIFvjRORhVWpI1PYIrHf0rEflW+Am5wxPpzRRbDbzDniCt7JOI37aQNcG8hjzBMnof5KFwQKzi/3xb+UWAgXdklOGIe03IRuDwc7BCBF7SosTQPnWgVFQSNr0HxEpTylmJdJYSNwS0JTFFzX9SP9hu3tbdIIdJVtyjniXhb4ll5JSbHYXf1yLEKz9Cw5uBliBgfP8zB5pjubBIo3OyXTSvZ4TYRu4c5ZIyDJcHqkPy6p/+O7neJ8Zcpj1g2AIJmibsQolipRjcjy0qyokxTYa1/7X0xhdfQYdI3Srbr2tgqpNY9YrqYDnRHgFEemNcHRFXP0TCWijDfx2FojKA=
   file_glob: true
-  file: build/MoreMeat-*.jar
+  file: deploy/*
   skip_cleanup: true
   draft: true
   on:
