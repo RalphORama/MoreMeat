@@ -4,9 +4,11 @@
 
 MoreMeat is a Spigot plugin for adding more food drops to your Minecraft server!
 
+
 ## Installation & Usage
 
 :warning: Don't use this plugin yet!  Wait for the v1.0.0 release (coming soon&trade;).
+
 
 ## Development
 
@@ -17,6 +19,7 @@ Working on the plugin is easy:
 3. Run `./gradlew` (default tasks are `clean`, `build`, `jar`)
 4. Copy `MoreMeat-<version>.jar` from `build/` to your plugins folder
 
+
 ## Milestones
 
 ### v1.0
@@ -26,11 +29,6 @@ Working on the plugin is easy:
 - [ ] Player meat drops
   - [ ] Add username to item name
 - [x] If entity is on fire, drop cooked meat
-
- **NBT Advanced Features:**
-
-- [ ] Create [fat jar](https://www.baeldung.com/gradle-fat-jar) with [NBT API](https://www.spigotmc.org/resources/nbt-api.7939/)
-- [ ] Add NBT field to indicate what cooked name of meat should be?
 
 
 **Configuration options:**
@@ -47,6 +45,7 @@ Working on the plugin is easy:
 - [x] Per-mob custom drop name
 - [x] Per-mob enable/disable
 
+
 **Commands:**
 
 - [x] `/meat`
@@ -60,6 +59,7 @@ Working on the plugin is easy:
   - Reloads the config
   - **TODO:** Write custom reload class so we can catch config reload errors.
   - [x] Permission `moremeat.reload` (OP)
+
 
 **Reminders:**
 
