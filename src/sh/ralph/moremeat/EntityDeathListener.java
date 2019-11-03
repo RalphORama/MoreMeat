@@ -82,9 +82,8 @@ public class EntityDeathListener implements Listener {
 
         // Combine original drops with new (meat) drops
         // TODO: Add a config option to disable original drops.
-        // TODO: Implement custom name config option.
         Material material = null;
-        // String customName = MoreMeat.config.getString(configParent + "customName");
+        String customName = MoreMeat.config.getString(configParent + "dropName");
         // String customLore = MoreMeat.config.getString(configParent + "lore");
         int min = MoreMeat.config.getInt(configParent + "minDrops");
         int max = MoreMeat.config.getInt(configParent + "maxDrops");
@@ -113,7 +112,7 @@ public class EntityDeathListener implements Listener {
         ItemMeta meta = meat.getItemMeta();
         if (meta != null) {
             String status = (wasOnFire) ? "Cooked " : "Raw ";
-            String newName = WordUtils.capitalizeFully(status + entityType);
+            String newName = WordUtils.capitalizeFully(status + customName);
             // Use ChatColor.RESET so name isn't italic
             // Has to go here otherwise capitalizeFully messes up.
             meta.setDisplayName(ChatColor.RESET + newName);

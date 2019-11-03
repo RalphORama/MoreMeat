@@ -22,7 +22,7 @@ Working on the plugin is easy:
 ### v1.0
 
 **Features**
-- [ ] Listener for "Raw \<Meat\>" -> "Cooked \<Meat\>"
+- [x] Listener for "Raw \<Meat\>" -> "Cooked \<Meat\>"
 - [ ] Player meat drops
   - [ ] Add username to item name
 - [x] If entity is on fire, drop cooked meat

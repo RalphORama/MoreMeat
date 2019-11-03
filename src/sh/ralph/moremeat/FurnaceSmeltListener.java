@@ -21,6 +21,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.FurnaceSmeltEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +29,9 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 public class FurnaceSmeltListener implements Listener {
-    private MoreMeat plugin;
     private Logger logger;
 
-    FurnaceSmeltListener(MoreMeat plugin, Logger logger) {
-        this.plugin = plugin;
+    FurnaceSmeltListener(Logger logger) {
         this.logger = logger;
     }
 
@@ -57,29 +56,37 @@ public class FurnaceSmeltListener implements Listener {
         }
 
         String newDisplayName;
-        String node = "meats." + displayName + ".dropName";
+        String node = "meats." + displayName;
 
         logger.fine("Looking for " + node + " in config.");
 
+        // Set everything up if the node exists
         if (MoreMeat.config.contains(node)) {
-            newDisplayName = MoreMeat.config.getString(node);
+            newDisplayName = MoreMeat.config.getString(node + ".dropName");
         } else {
             logger.fine(node + " doesn't exist in the config!");
             return;
         }
 
-        logger.fine("Successfully got " + newDisplayName);
+        // Don't modify anything if the config section isn't enabled.
+        boolean globalEnable = MoreMeat.config.getBoolean("enabled");
+        boolean localEnable  = MoreMeat.config.getBoolean(node + ".enabled");
+        if (!globalEnable || !localEnable) {
+            logger.fine("Skipping " + node + " smelt event because:");
+            logger.fine(" > global enable is " + globalEnable);
+            logger.fine(" > local enable is  " + localEnable);
 
+            return;
+        }
 
-//        if (typeof meatList != null;)
-//        for (CustomMeat meat : meatList) {
-//            logger.info("meat is " + meat.toString());
-//        }
-        // TODO: Set up custom NBT values and check
-//        if (source.getItemMeta().getDisplayName().contains("Raw")) {
-//
-//        }
-    }
+        // Maintain same lore & other properties from the custom drop.
+        ItemMeta oldMeta = source.getItemMeta();
+        oldMeta.setDisplayName(ChatColor.RESET + "Cooked " + newDisplayName);
 
+        logger.fine("Setting ItemMeta to " + oldMeta.toString());
 
+        // We just need to update the meta, the furnace will automatically produce cooked food
+        // of the same type for us.
+        result.setItemMeta(oldMeta);
+        }
 }
