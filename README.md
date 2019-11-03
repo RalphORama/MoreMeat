@@ -33,11 +33,11 @@ Working on the plugin is easy:
 
 **Configuration options:**
 
-- [ ] "Player" configuration section
-	- [ ] Enable/disable
-	- [ ] Min/max drops
-	- [ ] Item base
-	- [ ] Name type to use? Real vs. display vs. "Raw (Human|Player|Steve)"
+- [x] "Player" configuration section
+	- [x] Enable/disable
+	- [x] Min/max drops
+	- [x] Item base
+	- [x] Name type to use? Real vs. display vs. "Raw (Human|Player|Steve)"
 - [x] Config option for entity list
 - [x] Config option for global enable/disable
 - [x] Per-mob item base (chicken/steak/etc.)

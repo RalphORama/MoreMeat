@@ -1,1 +1,65 @@
-# Welcome to the MoreMeat config file.
+## Thanks for using MoreMeat!
+
+## Here's what different config values do:
+##   enabled:   enable that specific drop
+##   dropName:  Prefixed with "Raw" or "Cooked" (e.g. Ocelot -> "Raw Ocelot")
+##   entity:    The entity type that produces this drop
+##              See http://s.ralph.sh/EntityTypes for a list of possible values.
+##   foodBase:  The base item, e.g. CHICKEN for Raw Chicken
+##              See https://s.ralph.sh/Materials for a list of possible values.
+##   minDrops:  The minimum number of items dropped.
+##              Must be between 0 and 64 (inclusive) and less than maxDrops.
+##   maxDrops:  The maximum number of items dropped.
+##              Must be between 0 and 64 (inclusive) and greater than minDrops.
+
+# Enable or disable the whole plugin
+enabled: true
+
+# Settings for player drops
+# NB: dropName works slightly differently for players.
+players:
+  enabled: true
+  # Set useGenericDropName to `true` to use a generic drop name for player meat.
+  # This will allow player meat to stack easier, but all drops will be labeled "(Raw/Cooked) <dropName>"
+  # If useGenericDropName is `false`, player drops will be named "<Username>'s Flesh"
+  useGenericDropName: false
+  # Only used if useGenericDropName is true.
+  dropName: Human Flesh
+  entity: PLAYER
+  foodBase: BEEF
+  minDrops: 1
+  maxDrops: 3
+
+# Settings for all other entities
+meats:
+  ocelot:
+    enabled: true
+    dropName: Ocelot
+    entity: OCELOT
+    foodBase: RABBIT
+    minDrops: 0
+    maxDrops: 2
+  bat:
+    enabled: true
+    dropName: Bat
+    entity: BAT
+    foodBase: CHICKEN
+    minDrops: 0
+    maxDrops: 1
+  parrot:
+    enabled: true
+    dropName: Parrot
+    entity: PARROT
+    foodBase: CHICKEN
+    minDrops: 1
+    maxDrops: 1
+  cat:
+    enabled: true
+    dropName: Cat
+    entity: CAT
+    foodBase: RABBIT
+    minDrops: 1
+    maxDrops: 1
+
+# Please don't touch this!
+version: 1

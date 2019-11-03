@@ -48,9 +48,13 @@ public class MoreMeat extends JavaPlugin implements Listener {
         getLogger().fine("Adding global option `enabled`: `true`");
         config.addDefault("enabled", true);
 
+        // Probably won't ever need this but a config version in case of migrations.
+        config.addDefault("version", 1);
+
         getLogger().fine("Creating default entity map.");
 
-        Map<String, CustomMeat> defaultEntities = new HashMap<String, CustomMeat>();
+        // These are the default settings.  They shouldn't overwrite config.yml if you make changes.
+        Map<String, CustomMeat> defaultEntities = new HashMap<>();
         defaultEntities.put("Bat",
                 new CustomMeat(EntityType.BAT, Material.CHICKEN, 0, 1));
         defaultEntities.put("Cat",
@@ -60,25 +64,35 @@ public class MoreMeat extends JavaPlugin implements Listener {
         defaultEntities.put("Parrot",
                 new CustomMeat(EntityType.PARROT, Material.CHICKEN, 1, 1));
 
-        getLogger().fine("Adding default entity list to the config file.");
+        getLogger().info("Creating player section.");
+
+        CustomMeat players = new CustomMeat(EntityType.PLAYER, Material.BEEF, 1, 3);
+        Map<String, String> defaultPlayerSettings = new HashMap<>();
+        defaultPlayerSettings.put("enabled", "true");
+        defaultPlayerSettings.put("normalizedName", "Player");
+        defaultPlayerSettings.put("useNormalizedName", "false");
+        defaultPlayerSettings.put("foodBase", "BEEF");
+        defaultPlayerSettings.put("minDrops", "1");
+        defaultPlayerSettings.put("maxDrops", "3");
+
+        addMeatDefaultToConfig(players, "players", "");
+        config.addDefault("players.useGenericDropName", false);
+
         /*
          * Thanks to @ASangarin on the Spigot forums for their help with this.
          *  https://s.ralph.sh/03c43
          */
+        getLogger().info("Adding default entity settings to the config file ");
         for(String key : defaultEntities.keySet()) {
             String s = key.toLowerCase();
             getLogger().fine("Adding " + s + " to the config.");
 
-            config.addDefault("meats." + s + ".enabled", defaultEntities.get(key).enabled);
-            config.addDefault("meats." + s + ".dropName", defaultEntities.get(key).getDropName());
-            config.addDefault("meats." + s + ".entity", defaultEntities.get(key).getEntity().toString());
-            config.addDefault("meats." + s + ".foodBase", defaultEntities.get(key).getFoodBase().toString());
-            config.addDefault("meats." + s + ".minDrops", defaultEntities.get(key).getMinDrops());
-            config.addDefault("meats." + s + ".maxDrops", defaultEntities.get(key).getMaxDrops());
+            addMeatDefaultToConfig(defaultEntities.get(key), "meats", s);
         }
 
         // Free memory
         defaultEntities = null;
+        defaultPlayerSettings = null;
 
         getLogger().fine("Saving config.");
         config.options().copyDefaults(true);
@@ -102,5 +116,33 @@ public class MoreMeat extends JavaPlugin implements Listener {
     @Override
     public void onDisable() {
         // TODO: Maybe add a goodbye message
+    }
+
+    /**
+     * There's no easy way to iterate + typecast a Map<String,CustomMeat>, so we use this.
+     * @param target The entity that needs its defaults added.
+     * @param prefix The parent section (where its "brother/sister" entities are stored.
+     * @param subSection The section for the settings themselves.
+     */
+    private void addMeatDefaultToConfig(CustomMeat target, String prefix, String subSection) {
+        if (prefix.isEmpty() && subSection.isEmpty()) {
+            throw new IllegalArgumentException("'prefix' and 'subSection' can't both be empty!");
+        }
+        String node = "";
+
+        if (!prefix.isEmpty()) {
+            node += prefix + ".";
+        }
+
+        if (!subSection.isEmpty()) {
+            node += subSection + ".";
+        }
+
+        config.addDefault(node + "enabled", target.enabled);
+        config.addDefault(node + "dropName", target.getDropName());
+        config.addDefault(node + "entity", target.getEntity().toString());
+        config.addDefault(node + "foodBase", target.getFoodBase().toString());
+        config.addDefault(node + "minDrops", target.getMinDrops());
+        config.addDefault(node + "maxDrops", target.getMaxDrops());
     }
 }

@@ -170,7 +170,7 @@ public class CustomMeat {
      */
     public String getDropName() {
         if (dropName == null) {
-            return WordUtils.capitalizeFully("Raw " + this.entity.toString());
+            return WordUtils.capitalizeFully(this.entity.toString());
         }
 
         return dropName;
