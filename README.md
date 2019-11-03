@@ -25,7 +25,7 @@ See the [wiki page](https://github.com/RalphORama/MoreMeat/wiki/Configuration) f
 | `/meat <enable/disable>` | Enables/disables the plugin's functionality. | `moremeat.toggle` |            :x: OP           |
 | `/meat reload`           | Reloads `config.yml`.<sup>1</sup>             | `moremeat.reload` |            :x: OP           |
 
-<sup>1</sup>: May fail silently if run ingame, check server console (see #2).
+<sup>1</sup> May fail silently if run ingame, check server console (see [#1](https://github.com/RalphORama/MoreMeat/issues/1)).
 
 
 ## Development
