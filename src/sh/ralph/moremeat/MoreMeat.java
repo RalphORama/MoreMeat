@@ -76,7 +76,7 @@ public class MoreMeat extends JavaPlugin implements Listener {
         defaultPlayerSettings.put("maxDrops", "3");
 
         addMeatDefaultToConfig(players, "players", "");
-        config.addDefault("players.useGenericDropName", false);
+        config.addDefault("players.useDropNameInsteadOfUsername", false);
 
         /*
          * Thanks to @ASangarin on the Spigot forums for their help with this.
