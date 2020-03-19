@@ -7,7 +7,7 @@ MoreMeat is a Spigot plugin for adding more food drops to your Minecraft server!
 
 ## Installation
 
-1. Download the latest jar from the [releases page](https://github.com/RalphORama/MoreMeat/releases).  (Spigot page coming soon!)
+1. Download the latest jar from [Spigot](https://www.spigotmc.org/resources/moremeat.72497/) or the [releases page](https://github.com/RalphORama/MoreMeat/releases).
 2. Drop `MoreMeat-*.*.*.jar` into your `plugins` folder
 3. Restart your server!
 
@@ -23,7 +23,7 @@ See the [wiki page](https://github.com/RalphORama/MoreMeat/wiki/Configuration) f
 |--------------------------|----------------------------------------------|-------------------|-----------------------------|
 | `/meat`                  | Shows plugin information.                    | `moremeat.meat`   | :heavy_check_mark: Everyone |
 | `/meat <enable/disable>` | Enables/disables the plugin's functionality. | `moremeat.toggle` |            :x: OP           |
-| `/meat reload`           | Reloads `config.yml`.<sup>1</sup>             | `moremeat.reload` |            :x: OP           |
+| `/meat reload`           | Reloads `config.yml`.<sup>1</sup>            | `moremeat.reload` |            :x: OP           |
 
 <sup>1</sup> May fail silently if run ingame, check server console (see [#1](https://github.com/RalphORama/MoreMeat/issues/1)).
 
